@@ -7,7 +7,7 @@ import db from "../firebase";
 import { useParams } from "react-router-dom";
 import firebase from "firebase";
 
-function Chat() {
+function Chat({ user }) {
   let { channelId } = useParams();
   const [channel, SetChannel] = useState();
   const [messages, SetMessages] = useState([]);
@@ -22,6 +22,19 @@ function Chat() {
         SetMessages(messages);
       });
   };
+
+  const sendMessage = (text) => {
+    if (channelId) {
+      let payload = {
+        text: text,
+        timestamp: firebase.firestore.Timestamp.now(),
+        user: user.name,
+        userImage: user.photo,
+      };
+      db.collection("rooms").doc(channelId).collection("messages").add(payload);
+    }
+  };
+
   const getChannel = () => {
     db.collection("rooms")
       .doc(channelId)
@@ -60,7 +73,7 @@ function Chat() {
             />
           ))}
       </MessageContainer>
-      <ChatInput />
+      <ChatInput sendMessage={sendMessage} />
     </Container>
   );
 }
@@ -71,6 +84,7 @@ const Container = styled.div`
   background-image: linear-gradient(#025955, #222831);
   display: grid;
   grid-template-rows: 74px auto min-content;
+  min-height: 0;
 `;
 
 const Header = styled.div`
@@ -82,7 +96,11 @@ const Header = styled.div`
   justify-content: space-between;
 `;
 
-const MessageContainer = styled.div``;
+const MessageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+`;
 
 const Channel = styled.div``;
 

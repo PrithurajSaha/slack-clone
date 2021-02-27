@@ -1,14 +1,29 @@
 import React from "react";
 import styled from "styled-components";
 import SendRoundedIcon from "@material-ui/icons/SendRounded";
+import { useState } from "react";
 
-function ChatInput() {
+function ChatInput({ sendMessage }) {
+  const [input, SetInput] = useState("");
+
+  const send = (e) => {
+    e.preventDefault();
+    if (!input) return;
+    sendMessage(input);
+    SetInput("");
+  };
+
   return (
     <Container>
       <InputContainer>
         <form>
-          <input type="text" placeholder="Message Here....." />
-          <SendButton>
+          <input
+            onChange={(e) => SetInput(e.target.value)}
+            type="text"
+            value={input}
+            placeholder="Message Here....."
+          />
+          <SendButton type="submit" onClick={send}>
             <SendIcon />
           </SendButton>
         </form>
@@ -20,9 +35,10 @@ function ChatInput() {
 export default ChatInput;
 
 const Container = styled.div`
-  padding-left: 20px;
-  padding-right: 20px;
-  padding-bottom: 24px;
+  padding-top: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-bottom: 10px;
   color: #eeeeee;
 `;
 const InputContainer = styled.div`
@@ -47,7 +63,11 @@ const InputContainer = styled.div`
   }
 `;
 
-const SendButton = styled.div`
+const SendButton = styled.button`
+  :focus {
+    outline: none;
+  }
+  border: none;
   background: #00917c;
   border-radius: 2px;
   margin-right: 5px;

@@ -23,11 +23,11 @@ export default ChatMessage;
 const Container = styled.div`
   display: flex;
   align-items: center;
-  background: #222831;
+  background: transparent;
   margin-top: 15px;
   margin-left: 10px;
   margin-right: 10px;
-  border: 1px solid #00adb5;
+  border: 2px solid #00adb5;
   border-radius: 5px;
   color: #eeeeee;
   padding: 8px 20px;
