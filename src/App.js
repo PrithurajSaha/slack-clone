@@ -7,9 +7,18 @@ import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
 import db from "./firebase";
 import { useEffect, useState } from "react";
+import { auth } from "./firebase";
 
 function App() {
   const [rooms, setRooms] = useState([]);
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
+
+  const signOut = () => {
+    auth.signOut().then(() => {
+      localStorage.removeItem("user");
+      setUser(null);
+    });
+  };
 
   const getChannels = () => {
     db.collection("rooms").onSnapshot((snapshot) => {
@@ -28,20 +37,21 @@ function App() {
   return (
     <div className="App">
       <Router>
-        <Container>
-          <Header />
-          <Main>
-            <Sidebar rooms={rooms} />
-            <Switch>
-              <Route path="/room">
-                <Chat />
-              </Route>
-              <Route path="/">
-                <Login />
-              </Route>
-            </Switch>
-          </Main>
-        </Container>
+        {!user ? (
+          <Login SetUser={setUser} />
+        ) : (
+          <Container>
+            <Header user={user} signOut={signOut} />
+            <Main>
+              <Sidebar rooms={rooms} user={user} />
+              <Switch>
+                <Route path="/room">
+                  <Chat />
+                </Route>
+              </Switch>
+            </Main>
+          </Container>
+        )}
       </Router>
     </div>
   );
@@ -57,6 +67,7 @@ const Container = styled.div`
 `;
 
 const Main = styled.div`
+  background-image: linear-gradient(#025955, #222831);
   display: grid;
   grid-template-columns: 260px auto;
 `;

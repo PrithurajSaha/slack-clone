@@ -2,8 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import AccessTimeIcon from "@material-ui/icons/AccessTime";
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 
-function Header() {
+function Header({ user, signOut }) {
   return (
     <Container>
       <Main>
@@ -20,10 +21,16 @@ function Header() {
         </Icon>
       </Main>
       <UserContainer>
-        <Name>Prithuraj</Name>
+        <Name>{user.name}</Name>
         <UserImage>
-          <img src="https://i.imgur.com/6VBx3io.png" />
+          <img
+            src={user.photo ? user.photo : "https://i.imgur.com/6VBx3io.png"}
+          />
         </UserImage>
+
+        <Logout onClick={signOut}>
+          <ExitToAppIcon />
+        </Logout>
       </UserContainer>
     </Container>
   );
@@ -58,15 +65,15 @@ const Icon = styled.div`
 const UserContainer = styled.div`
   display: flex;
   align-items: center;
-  padding-right: 16px;
+  padding-right: 10px;
   position: absolute;
   right: 0;
 `;
 
 const SearchContainer = styled.div`
   min-width: 400px;
-  margin-left: 16px;
-  margin-right: 16px;
+  margin-left: 15px;
+  margin-right: 15px;
 `;
 
 const Search = styled.div`
@@ -92,7 +99,8 @@ const Search = styled.div`
 `;
 
 const Name = styled.div`
-  padding-right: 16px;
+  font-size: 15px;
+  padding-right: 10px;
 `;
 
 const UserImage = styled.div`
@@ -103,5 +111,19 @@ const UserImage = styled.div`
 
   img {
     width: 100%;
+  }
+`;
+
+const Logout = styled.div`
+  margin-left: 5px;
+  background: #00917c;
+  border: 2px solid #eeeeee;
+  border-radius: 2px;
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  :hover {
+    background: #00adb5;
+    cursor: pointer;
   }
 `;
