@@ -22,7 +22,7 @@ function Login(props) {
   return (
     <Container>
       <Content>
-        <SlackImg src="http://assets.stickpng.com/images/5cb480cd5f1b6d3fbadece79.png" />
+        <SlackImg src="https://cdn.freebiesupply.com/logos/large/2x/slack-icon.svg" />
         <h1>Sign in Slack-Clone</h1>
         <SignInButton onClick={() => SignIn()}>
           Sign In With Google
