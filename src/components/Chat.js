@@ -1,54 +1,72 @@
 import React from "react";
 import styled from "styled-components";
 import InfoIcon from "@material-ui/icons/Info";
+import ChatInput from "./ChatInput";
+import ChatMessage from "./ChatMessage";
 
 function Chat() {
   return (
-    <RoomContainer>
-      <ChatHeader>
-        <Room>
-          <b># clever</b>
-          <RoomDescription>
-            <p>The Clever Programmer slack</p>
-          </RoomDescription>
-        </Room>
-        <Info>
-          <InfoIcon />
-        </Info>
-      </ChatHeader>
-    </RoomContainer>
+    <Container>
+      <Header>
+        <Channel>
+          <ChannelName># clever</ChannelName>
+          <ChannelInfo>
+            Company-wide announcements and work-based matters
+          </ChannelInfo>
+        </Channel>
+        <ChannelDetails>
+          <div>Details</div>
+          <Info />
+        </ChannelDetails>
+      </Header>
+      <MessageContainer>
+        <ChatMessage />
+      </MessageContainer>
+      <ChatInput />
+    </Container>
   );
 }
 
 export default Chat;
 
-const ChatHeader = styled.div`
-  height: 65px;
-  border-bottom: 1px solid #00adb5;
+const Container = styled.div`
+  background-image: linear-gradient(#025955, #222831);
+  display: grid;
+  grid-template-rows: 74px auto min-content;
+`;
+
+const Header = styled.div`
+  padding-left: 20px;
+  padding-right: 20px;
   display: flex;
+  align-items: center;
+  border-bottom: 5px solid #00917c;
   justify-content: space-between;
 `;
-const Room = styled.div`
-  padding-top: 7px;
-  padding-left: 7px;
-  color: #eeeeee;
+
+const MessageContainer = styled.div``;
+
+const Channel = styled.div``;
+
+const ChannelName = styled.div`
+  font-weight: 700;
+  color: #00adb5;
 `;
 
-const RoomDescription = styled.div`
+const ChannelInfo = styled.div`
+  font-weight: 400;
   color: #eeeeee;
-  font-size: 15px;
+  font-size: 13px;
+  margin-top: 8px;
 `;
 
-const Info = styled.div`
+const ChannelDetails = styled.div`
+  color: #eeeeee;
+  display: flex;
+  align-items: center;
+`;
+
+const Info = styled(InfoIcon)`
+  margin-left: 10px;
   cursor: pointer;
-  color: #222831;
-  padding: 10px;
-  height: 15px;
-  :hover {
-    color: #eeeeee;
-  }
-`;
-const RoomContainer = styled.div`
-  background: #00917c;
-  border: 8px groove #00adb5;
 `;
