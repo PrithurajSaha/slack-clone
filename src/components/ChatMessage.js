@@ -1,18 +1,18 @@
 import React from "react";
 import styled from "styled-components";
 
-function ChatMessage() {
+function ChatMessage({ image, name, timestamp, text }) {
   return (
     <Container>
       <UserAvatar>
-        <img src="https://randomuser.me/api/portraits/men/9.jpg" />
+        <img src={image} />
       </UserAvatar>
       <MessageContent>
         <Name>
-          Prithuraj Saha
-          <span>2/23/2021 11:13:56 Am</span>
+          {name}
+          <span>{new Date(timestamp?.toDate()).toUTCString()}</span>
         </Name>
-        <Text>This is the best Challenge!</Text>
+        <Text>{text}</Text>
       </MessageContent>
     </Container>
   );
@@ -36,6 +36,7 @@ const Container = styled.div`
   }
 `;
 const UserAvatar = styled.div`
+  border: 2px solid #eeeeee;
   margin-right: 10px;
   width: 40px;
   height: 40px;

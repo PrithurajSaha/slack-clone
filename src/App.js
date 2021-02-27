@@ -8,6 +8,7 @@ import Sidebar from "./components/Sidebar";
 import db from "./firebase";
 import { useEffect, useState } from "react";
 import { auth } from "./firebase";
+import SelectChannel from "./components/SelectChannel";
 
 function App() {
   const [rooms, setRooms] = useState([]);
@@ -45,8 +46,11 @@ function App() {
             <Main>
               <Sidebar rooms={rooms} user={user} />
               <Switch>
-                <Route path="/room">
+                <Route path="/room/:channelId">
                   <Chat />
+                </Route>
+                <Route path="/">
+                  <SelectChannel />
                 </Route>
               </Switch>
             </Main>

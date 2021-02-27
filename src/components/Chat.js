@@ -1,15 +1,45 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import InfoIcon from "@material-ui/icons/Info";
 import ChatInput from "./ChatInput";
 import ChatMessage from "./ChatMessage";
+import db from "../firebase";
+import { useParams } from "react-router-dom";
+import firebase from "firebase";
 
 function Chat() {
+  let { channelId } = useParams();
+  const [channel, SetChannel] = useState();
+  const [messages, SetMessages] = useState([]);
+
+  const getMessages = () => {
+    db.collection("rooms")
+      .doc(channelId)
+      .collection("messages")
+      .orderBy("timestamp", "asc")
+      .onSnapshot((snapshot) => {
+        let messages = snapshot.docs.map((doc) => doc.data());
+        SetMessages(messages);
+      });
+  };
+  const getChannel = () => {
+    db.collection("rooms")
+      .doc(channelId)
+      .onSnapshot((snapshot) => {
+        SetChannel(snapshot.data());
+      });
+  };
+
+  useEffect(() => {
+    getMessages();
+    getChannel();
+  }, [channelId]);
+
   return (
     <Container>
       <Header>
         <Channel>
-          <ChannelName># clever</ChannelName>
+          <ChannelName># {channel && channel.name}</ChannelName>
           <ChannelInfo>
             Company-wide announcements and work-based matters
           </ChannelInfo>
@@ -20,7 +50,15 @@ function Chat() {
         </ChannelDetails>
       </Header>
       <MessageContainer>
-        <ChatMessage />
+        {messages.length > 0 &&
+          messages.map((data, index) => (
+            <ChatMessage
+              text={data.text}
+              name={data.user}
+              image={data.userImage}
+              timestamp={data.timestamp}
+            />
+          ))}
       </MessageContainer>
       <ChatInput />
     </Container>
